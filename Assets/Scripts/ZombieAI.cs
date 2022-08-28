@@ -10,7 +10,6 @@ public class ZombieAI : GameAgent
     private TextMeshProUGUI m_Text;
 
     [SerializeField] private Transform m_HandTransform;
-    [SerializeField] private LayerMask m_AttackMask;
 
     // Start is called before the first frame update
     void Start()
@@ -26,6 +25,7 @@ public class ZombieAI : GameAgent
         var characterInViewTransition = new CharacterInViewTransition();
         var playerDeathTransition = new PlayerDeathTransition();
         var playerInAttackRange = new CharacterInAttackRangeTransition();
+        var propInTheWayTransition = new PropInTheWayTransition();
 
         m_StateMachine = new FiniteStateMachine(wanderState, this);
 
@@ -33,6 +33,8 @@ public class ZombieAI : GameAgent
         m_StateMachine.AddTransition(chaseState, attackState, playerInAttackRange);
         m_StateMachine.AddTransition(wanderState, chaseState, characterInViewTransition);
         m_StateMachine.AddTransition(attackState, chaseState, new InverseTransition(playerInAttackRange));
+        m_StateMachine.AddTransition(chaseState, attackState, propInTheWayTransition);
+        m_StateMachine.AddTransition(chaseState, wanderState, playerDeathTransition);
     }
 
     // Update is called once per frame
@@ -62,7 +64,7 @@ public class ZombieAI : GameAgent
     {
         var attackRay = new Ray(transform.position + (transform.forward * 0.25f) + (transform.up), transform.forward);
         RaycastHit hit;
-        if(Physics.Raycast(attackRay, out hit, AttackRange, m_AttackMask))
+        if(Physics.Raycast(attackRay, out hit, AttackRange, AttackMask))
         {
             Debug.DrawRay(attackRay.origin, attackRay.direction * hit.distance, Color.red, 1.0f);
             HealthComponent healthComponent = hit.transform.GetComponent<HealthComponent>();
@@ -73,8 +75,6 @@ public class ZombieAI : GameAgent
         {
             Debug.DrawRay(attackRay.origin, attackRay.direction * AttackRange, Color.red, 1.0f);
         }
-
-
     }
 
 

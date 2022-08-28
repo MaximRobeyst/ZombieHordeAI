@@ -6,6 +6,6 @@ public class PlayerDeathTransition : IFSMTransition
 {
     public override bool ToTransition(GameAgent agent)
     {
-        return agent.AIDirector.CurrentNPCTargets[0].Dead;
+        return agent.CurrentCharacterTarget.Dead;
     }
 }

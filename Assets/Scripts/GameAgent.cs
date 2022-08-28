@@ -21,6 +21,9 @@ public class GameAgent : MonoBehaviour
         } 
     }
 
+    [SerializeField] private LayerMask m_AttackMask;
+    public LayerMask AttackMask { get { return m_AttackMask; } }
+
     // Blackboard or dictionary of float values seeing as other values we will not use different types as much
     [SerializeField] private float m_AttackRange = 1.0f;
     [SerializeField] private float m_DetectionRange = 10.0f;
