@@ -8,7 +8,7 @@ public class HealthComponent : MonoBehaviour
     [SerializeField] private float m_MaxHealth;
     [SerializeField] private bool m_DisableOnDeath = false;
 
-    private int m_CharactersTargeting;
+    private int m_CharactersTargeting;  // for use in a token system
 
     private void Start()
     {

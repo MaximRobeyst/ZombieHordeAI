@@ -20,7 +20,7 @@ GameObject:
   - component: {fileID: 646230343802780043}
   m_Layer: 7
   m_Name: Door
-  m_TagString: Untagged
+  m_TagString: Prop
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -2242,6 +2242,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_MaxHealth: 50
+  m_DisableOnDeath: 1
 --- !u!208 &2050155657267554760
 NavMeshObstacle:
   m_ObjectHideFlags: 0

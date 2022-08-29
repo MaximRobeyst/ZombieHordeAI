@@ -6,6 +6,7 @@ TagManager:
   tags:
   - Manager
   - Enemy
+  - Prop
   layers:
   - Default
   - TransparentFX

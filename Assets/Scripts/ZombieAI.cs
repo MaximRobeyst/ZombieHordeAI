@@ -5,8 +5,6 @@ using TMPro;
 
 public class ZombieAI : GameAgent
 {
-
-    private FiniteStateMachine m_StateMachine;
     private TextMeshProUGUI m_Text;
 
     [SerializeField] private Transform m_HandTransform;
@@ -21,11 +19,13 @@ public class ZombieAI : GameAgent
         var wanderState = new WanderState(this);
         var chaseState = new ChaseState(this);
         var attackState = new AttackState(this);
+        var deatthState = new DeathState(this);
 
         var characterInViewTransition = new CharacterInViewTransition();
         var playerDeathTransition = new PlayerDeathTransition();
         var playerInAttackRange = new CharacterInAttackRangeTransition();
         var propInTheWayTransition = new PropInTheWayTransition();
+        var IsDeadTransition = new CharacterIsDeadTransition();
 
         m_StateMachine = new FiniteStateMachine(wanderState, this);
 
@@ -35,6 +35,10 @@ public class ZombieAI : GameAgent
         m_StateMachine.AddTransition(attackState, chaseState, new InverseTransition(playerInAttackRange));
         m_StateMachine.AddTransition(chaseState, attackState, propInTheWayTransition);
         m_StateMachine.AddTransition(chaseState, wanderState, playerDeathTransition);
+
+        m_StateMachine.AddTransition(chaseState, deatthState, IsDeadTransition);
+        m_StateMachine.AddTransition(attackState, deatthState, IsDeadTransition);
+        m_StateMachine.AddTransition(wanderState, deatthState, IsDeadTransition);
     }
 
     // Update is called once per frame

@@ -2,9 +2,9 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Interactible : MonoBehaviour
+public interface Interactible
 {
-    public virtual void Interacting()
+    public virtual void Interacting(GameObject interactingObject)
     {
 
     }

@@ -28,7 +28,7 @@ public class PlayerInteraction : MonoBehaviour
             {
                 if (Input.GetKeyDown(KeyCode.F))
                 {
-                    m_Interactible.Interacting();
+                    m_Interactible.Interacting(gameObject.transform.parent.gameObject);
                 }
             }
             return;

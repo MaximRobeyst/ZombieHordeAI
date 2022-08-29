@@ -24,6 +24,8 @@ public class GameAgent : MonoBehaviour
     [SerializeField] private LayerMask m_AttackMask;
     public LayerMask AttackMask { get { return m_AttackMask; } }
 
+    protected FiniteStateMachine m_StateMachine;
+
     // Blackboard or dictionary of float values seeing as other values we will not use different types as much
     [SerializeField] private float m_AttackRange = 1.0f;
     [SerializeField] private float m_DetectionRange = 10.0f;
@@ -36,7 +38,6 @@ public class GameAgent : MonoBehaviour
     public float Damage { get { return m_Damage; } }
     public float WanderSpeed { get { return m_WanderSpeed; } }
     public float ChaseSpeed { get { return m_ChaseSpeed;  } }
-
 
 
     // Start is called before the first frame update
