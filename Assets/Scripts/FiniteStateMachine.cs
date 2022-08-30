@@ -43,19 +43,23 @@ public class FiniteStateMachine
     {
         if (m_CurrentState == null) return;
 
-        if(m_Transitions.ContainsKey(m_CurrentState) && m_Transitions[m_CurrentState].Count != 0)
+
+        if (m_CurrentState != null)
+            m_CurrentState.Update();
+
+        if (!m_Transitions.ContainsKey(m_CurrentState) || m_Transitions[m_CurrentState] == null) return;
+        if (m_Transitions[m_CurrentState].Count != 0)
         {
             for(int i = 0; i < m_Transitions[m_CurrentState].Count; ++i)
             {
                 if(m_Transitions[m_CurrentState][i].Key.ToTransition(m_Agent))
                 {
                     ChangeState(m_Transitions[m_CurrentState][i].Value);
+                    return;
                 }
             }
         }
 
-        if (m_CurrentState != null)
-            m_CurrentState.Update();
     }
 
     public void Gizmos()

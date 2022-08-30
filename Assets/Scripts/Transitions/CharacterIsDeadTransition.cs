@@ -9,6 +9,10 @@ public class CharacterIsDeadTransition : IFSMTransition
     public override bool ToTransition(GameAgent agent)
     {
         if(m_HealthComponent == null) m_HealthComponent = agent.GetComponent<HealthComponent>();
+
+        if (m_HealthComponent.Dead)
+            return true;
+
         return m_HealthComponent.Dead;
     }
 }
