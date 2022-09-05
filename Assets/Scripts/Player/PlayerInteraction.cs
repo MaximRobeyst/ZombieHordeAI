@@ -12,6 +12,8 @@ public class PlayerInteraction : MonoBehaviour
 
     private void Start()
     {
+        if (m_ButtonPrompt == null) return;
+
         m_ButtonPrompt.SetActive(false);
     }
 
@@ -20,7 +22,10 @@ public class PlayerInteraction : MonoBehaviour
         Ray ray = new Ray(transform.position, transform.forward);
         RaycastHit hit;
 
-        m_ButtonPrompt.SetActive(m_Interactible != null);
+
+        if (m_ButtonPrompt != null)
+            m_ButtonPrompt.SetActive(m_Interactible != null);
+
         if (Physics.Raycast(ray, out hit, m_Distance, m_InteractionMask))
         {
             m_Interactible = hit.transform.GetComponent<Interactible>();

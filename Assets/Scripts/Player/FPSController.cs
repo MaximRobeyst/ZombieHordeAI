@@ -1,10 +1,11 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
 // https://sharpcoderblog.com/blog/unity-3d-fps-controller
 
-public class FPSController : MonoBehaviour
+public class FPSController : NetworkBehaviour
 {
     [SerializeField] private float m_WalkingSpeed = 7.5f;
     [SerializeField] private float m_RunningSpeed = 11.5f;
@@ -20,19 +21,27 @@ public class FPSController : MonoBehaviour
 
     private bool m_CanMove = true;
 
+
     // Start is called before the first frame update
     void Start()
     {
         m_CharacterController = GetComponent<CharacterController>();
-        m_PlayerCamera = GetComponentInChildren<Camera>();
 
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }
 
+    public override void OnStartAuthority()
+    {
+        m_PlayerCamera = GetComponentInChildren<Camera>(true);
+        m_PlayerCamera.enabled = true;
+    }
+
     // Update is called once per frame
     void Update()
     {
+        if(!hasAuthority) { return; }
+
         // We are grounded, so recalculate move direction based on axes
         Vector3 forward = transform.TransformDirection(Vector3.forward);
         Vector3 right = transform.TransformDirection(Vector3.right);

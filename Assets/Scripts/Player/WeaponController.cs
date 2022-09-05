@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponController : MonoBehaviour
+public class WeaponController : NetworkBehaviour
 {
     [SerializeField] private Weapon m_Weapon01;
     [SerializeField] private Transform m_WeaponPosition;
@@ -18,7 +19,7 @@ public class WeaponController : MonoBehaviour
 
     private void Update()
     {
-        if (m_Weapon01 == null) return;
+        if (m_Weapon01 == null || !hasAuthority) return;
 
         if (Input.GetMouseButton(0)) m_Weapon01.Fire();
 

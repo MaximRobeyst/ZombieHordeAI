@@ -12,10 +12,17 @@ public class WeaponPickup : Weapon, Interactible
     [SerializeField] private float m_FireRate = 5.0f;
     private bool m_AllowFire = true;
 
+    private Camera m_CurrentCamera;
+
+    void Start()
+    {
+        if (transform.parent != null) m_CurrentCamera = transform.GetComponentInParent<Camera>();
+    }
 
     public void Interacting(GameObject interactingObject)
     {
         WeaponController weaponController = interactingObject.GetComponent<WeaponController>();
+        m_CurrentCamera = interactingObject.GetComponentInChildren<Camera>();
 
         if (weaponController != null)
             weaponController.EquipWeapon(this);
@@ -35,11 +42,11 @@ public class WeaponPickup : Weapon, Interactible
                     healthComponent.DoDamage(m_Damage);
             }
 
-            Debug.DrawRay(m_MuzzleTransform.position, Camera.main.transform.forward * hit.distance, Color.red, 1f);
+            Debug.DrawRay(m_MuzzleTransform.position, m_CurrentCamera.transform.forward * hit.distance, Color.red, 1f);
         }
         else
         {
-            Debug.DrawRay(m_MuzzleTransform.position, Camera.main.transform.forward * m_Range, Color.red);
+            Debug.DrawRay(m_MuzzleTransform.position, m_CurrentCamera.transform.forward * m_Range, Color.red);
         }
 
         StartCoroutine(FireRate());
