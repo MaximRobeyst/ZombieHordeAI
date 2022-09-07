@@ -1,21 +1,32 @@
+using Mirror;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HealthComponent : MonoBehaviour
+public class HealthComponent : NetworkBehaviour
 {
-    private float m_Health;
+    [SyncVar(hook = nameof(HandleHealthUpdated))]
+    float m_Health;
     [SerializeField] private float m_MaxHealth;
     [SerializeField] private bool m_DisableOnDeath = false;
 
+
     private int m_CharactersTargeting;  // for use in a token system
 
-    private void Start()
+    public bool Dead => m_Health <= 0.0f;
+
+    public override void OnStartServer()
     {
         m_Health = m_MaxHealth;
     }
 
-    public bool Dead { get { return m_Health <= 0; } }
+   private void HandleHealthUpdated(float oldValue, float newValue)
+   {
+        m_Health = newValue;
+   }
+
+    [Server]
     public void DoDamage(float damage) 
     {
         m_Health -= damage;
@@ -24,6 +35,8 @@ public class HealthComponent : MonoBehaviour
         //if (m_Health <= 0) Destroy(gameObject); // Commenting till i find a better solution to handle target getting deleted
         if (m_Health <= 0) gameObject.SetActive(false);
     }
+
+
     public float GetHealth() { return m_Health; }
     public float GetMaxHealth() { return m_MaxHealth; }
 }

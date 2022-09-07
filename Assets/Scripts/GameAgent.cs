@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class GameAgent : MonoBehaviour
+public class GameAgent : NetworkBehaviour
 {
     public Vector3 CurrentTarget { get; set; }
     private AIDirector m_AIDirector;

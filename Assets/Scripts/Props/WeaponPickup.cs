@@ -14,9 +14,9 @@ public class WeaponPickup : Weapon, Interactible
 
     private Camera m_CurrentCamera;
 
-    void Start()
+    public void SetCurrentCamera(Camera camera)
     {
-        if (transform.parent != null) m_CurrentCamera = transform.GetComponentInParent<Camera>();
+        m_CurrentCamera = camera;
     }
 
     public void Interacting(GameObject interactingObject)
@@ -33,7 +33,7 @@ public class WeaponPickup : Weapon, Interactible
         if (!m_AllowFire) return;
 
         RaycastHit hit;
-        if(Physics.Raycast(Camera.main.transform.position, Camera.main.transform.forward, out hit, m_Range))
+        if(Physics.Raycast(m_CurrentCamera.transform.position, m_CurrentCamera.transform.forward, out hit, m_Range))
         {
             if(hit.transform.tag == "Prop" || hit.transform.tag == "Enemy")
             {

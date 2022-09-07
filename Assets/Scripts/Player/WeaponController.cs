@@ -5,16 +5,18 @@ using UnityEngine;
 
 public class WeaponController : NetworkBehaviour
 {
-    [SerializeField] private Weapon m_Weapon01;
+    [SerializeField] private WeaponPickup m_Weapon01;
     [SerializeField] private Transform m_WeaponPosition;
+
+    private Camera m_Camera;
 
     private void Start()
     {
         if (m_WeaponPosition == null) return;
+        m_Camera = GetComponentInChildren<Camera>();
 
-        m_Weapon01 = m_WeaponPosition.GetComponentInChildren<Weapon>();
-        m_Weapon01.GetComponent<Rigidbody>().isKinematic = true;
-        m_Weapon01.GetComponent<Collider>().isTrigger = true;
+        m_Weapon01 = m_WeaponPosition.GetComponentInChildren<WeaponPickup>();
+        if (m_Weapon01 != null) EquipWeapon(m_Weapon01);
     }
 
     private void Update()
@@ -25,7 +27,7 @@ public class WeaponController : NetworkBehaviour
 
     }
 
-    public void EquipWeapon(Weapon weapon)
+    public void EquipWeapon(WeaponPickup weapon)
     {
         if (m_Weapon01 != null) UnequipWeapon(m_Weapon01);
 
@@ -38,12 +40,13 @@ public class WeaponController : NetworkBehaviour
         m_Weapon01 = weapon;
     }
     
-    public void UnequipWeapon(Weapon weapon)
+    public void UnequipWeapon(WeaponPickup weapon)
     {
         weapon.transform.SetParent(null);
         weapon.transform.position = transform.position + transform.up + transform.forward;
         weapon.GetComponent<Rigidbody>().isKinematic = false;
         weapon.GetComponent<Collider>().isTrigger = false;
+        weapon.SetCurrentCamera(m_Camera);
 
         m_Weapon01 = null;
     }

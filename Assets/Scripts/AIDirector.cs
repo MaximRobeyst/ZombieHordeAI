@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class AIDirector : MonoBehaviour
+public class AIDirector : NetworkBehaviour
 {
     public List<HealthComponent> CurrentNPCTargets { get; } = new List<HealthComponent>();
     [SerializeField] private float m_MinTimeBetweenMobAttacks = 90.0f;
