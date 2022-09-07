@@ -336,6 +336,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f78ebf12f20c7bf4096ac3cf9aa2c37f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  syncMode: 0
+  syncInterval: 0.1
   m_MaxHealth: 100
   m_DisableOnDeath: 0
 --- !u!114 &1363523148576857254

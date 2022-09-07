@@ -13,11 +13,17 @@ public class NetworkMangerLobby : NetworkManager
     [Header("Room")]
     [SerializeField] private NetworkRoomPlayerLobby m_RoomPlayerPrefab = null;
 
+    [Header("Game")]
+    [SerializeField] private NetworkGamePlayerLobby m_GamePlayerPrefab = null;
+    [SerializeField] private GameObject m_PlayerSpawnSystem = null;
+
     // Listen in on these actions without having to call them
     public static event Action OnClientConnected;
     public static event Action OnClientDisconnected;
+    public static event Action<NetworkConnection> OnServerReadied;
 
     public List<NetworkRoomPlayerLobby> RoomPlayers { get; } = new List<NetworkRoomPlayerLobby>();
+    public List<NetworkGamePlayerLobby> GamePlayers { get; } = new List<NetworkGamePlayerLobby>();
 
     public override void OnClientConnect()
     {
@@ -99,5 +105,49 @@ public class NetworkMangerLobby : NetworkManager
     public override void OnStopServer()
     {
         RoomPlayers.Clear();
+    }
+
+    public void StartGame()
+    {
+        if(m_MenuScene.Contains(SceneManager.GetActiveScene().name))
+        {
+            if (!IsReadyToStart()) return;
+
+            ServerChangeScene("SampleScene");
+        }
+    }
+
+    public override void ServerChangeScene(string newSceneName)
+    {
+        if(m_MenuScene.Contains(SceneManager.GetActiveScene().name))
+        {
+            for (int i = RoomPlayers.Count - 1; i >= 0; --i)
+            {
+                var conn = RoomPlayers[i].connectionToClient;
+                var gameplayInstance = Instantiate(m_GamePlayerPrefab);
+                gameplayInstance.SetDisplayName(RoomPlayers[i].name);
+
+                NetworkServer.Destroy(conn.identity.gameObject);
+                NetworkServer.ReplacePlayerForConnection(conn, gameplayInstance.gameObject);
+            }
+        }
+
+        base.ServerChangeScene(newSceneName);
+    }
+
+    public override void OnServerSceneChanged(string sceneName)
+    {
+        if(sceneName.StartsWith("SampleScene"))
+        {
+            GameObject playerSpawnSystemInstance = Instantiate(m_PlayerSpawnSystem);
+            NetworkServer.Spawn(playerSpawnSystemInstance);
+        }
+    }
+
+    public override void OnServerReady(NetworkConnectionToClient conn)
+    {
+        base.OnServerReady(conn);
+
+        OnServerReadied?.Invoke(conn);
     }
 }
