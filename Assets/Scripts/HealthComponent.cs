@@ -6,11 +6,9 @@ using UnityEngine;
 
 public class HealthComponent : NetworkBehaviour
 {
-    [SyncVar(hook = nameof(HandleHealthUpdated))]
     float m_Health;
     [SerializeField] private float m_MaxHealth;
     [SerializeField] private bool m_DisableOnDeath = false;
-
 
     private int m_CharactersTargeting;  // for use in a token system
 
@@ -21,14 +19,11 @@ public class HealthComponent : NetworkBehaviour
         m_Health = m_MaxHealth;
     }
 
-   private void HandleHealthUpdated(float oldValue, float newValue)
-   {
-        m_Health = newValue;
-   }
-
     [Server]
     public void DoDamage(float damage) 
     {
+        Debug.Log($"{gameObject.name} Damaged");
+
         m_Health -= damage;
         if (!m_DisableOnDeath) return;
 
