@@ -97,7 +97,7 @@ LightmapSettings:
     m_ExportTrainingData: 0
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
-  m_LightingDataAsset: {fileID: 0}
+  m_LightingDataAsset: {fileID: 112000000, guid: 7dc02ca8fe2cbf848ae7db40ed68a556, type: 2}
   m_LightingSettings: {fileID: 656012793}
 --- !u!196 &4
 NavMeshSettings:
@@ -220,6 +220,37 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &19382797
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 19382798}
+  m_Layer: 0
+  m_Name: GameObject
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &19382798
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 19382797}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 42.25103, y: 0, z: 21.449266}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 15
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &177152071
 GameObject:
@@ -529,7 +560,7 @@ Light:
     serializedVersion: 2
     m_Bits: 4294967295
   m_RenderingLayerMask: 1
-  m_Lightmapping: 4
+  m_Lightmapping: 2
   m_LightShadowCasterMode: 0
   m_AreaSize: {x: 1, y: 1}
   m_BounceIntensity: 1
@@ -608,8 +639,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1059821551}
-  - component: {fileID: 1059821550}
   - component: {fileID: 1059821552}
+  - component: {fileID: 1059821550}
+  - component: {fileID: 1059821553}
   m_Layer: 0
   m_Name: Manager
   m_TagString: Manager
@@ -633,6 +665,10 @@ MonoBehaviour:
   syncInterval: 0.1
   m_MinTimeBetweenMobAttacks: 90
   m_MaxTimeBetweenMobAttacks: 180
+  m_DefaultAgents:
+  - {fileID: 919132148189835919, guid: 1b77a046c6e1ed142a1abcb2f19bc71e, type: 3}
+  m_SpecialAgents: []
+  m_BossAgents: []
 --- !u!4 &1059821551
 Transform:
   m_ObjectHideFlags: 0
@@ -665,6 +701,26 @@ MonoBehaviour:
   visible: 0
   m_AssetId: 
   hasSpawned: 0
+--- !u!114 &1059821553
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1059821549}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1b19573580c3f6b4780b116ba2606c97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_GridSize: 500
+  m_Columns: 5
+  m_Rows: 5
+  m_MaxHeightDifference: 10
+  m_WorldDivision: 20
+  m_NoSpawnRadius: 10
+  m_VisionRadius: 25
+  m_FovAngle: 45
 --- !u!1001 &1209144974
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -799,7 +855,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh32370
+  m_Name: pb_Mesh26328
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
