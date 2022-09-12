@@ -6,6 +6,7 @@ using UnityEngine;
 
 public class HealthComponent : NetworkBehaviour
 {
+    [SyncVar]
     float m_Health;
     [SerializeField] private float m_MaxHealth;
     [SerializeField] private bool m_DisableOnDeath = false;
@@ -14,12 +15,11 @@ public class HealthComponent : NetworkBehaviour
 
     public bool Dead => m_Health <= 0.0f;
 
-    public override void OnStartServer()
+    private void Start()
     {
         m_Health = m_MaxHealth;
     }
 
-    [Server]
     public void DoDamage(float damage) 
     {
         Debug.Log($"{gameObject.name} Damaged");

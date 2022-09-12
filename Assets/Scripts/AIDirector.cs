@@ -57,8 +57,8 @@ public class AIDirector : NetworkBehaviour
     {
         if (m_CurrentEnemyCount >= m_CurrentSpawnLimit) return;
 
-        Instantiate(m_DefaultAgents[Random.Range(0, m_DefaultAgents.Count)], m_InfoGrid.GetSuitableSpawnPosition(), Quaternion.identity);
-
+        GameObject defaultZombie = Instantiate(m_DefaultAgents[Random.Range(0, m_DefaultAgents.Count)], m_InfoGrid.GetSuitableSpawnPosition(), Quaternion.identity).gameObject;
+        NetworkServer.Spawn(defaultZombie, connectionToServer);
         ++m_CurrentEnemyCount;
     }
 
@@ -67,7 +67,7 @@ public class AIDirector : NetworkBehaviour
         Debug.Log("Starting mob");
         m_TimeTillNextMob = Random.Range(m_MinTimeBetweenMobAttacks, m_MaxTimeBetweenMobAttacks);
 
-        
-    }
 
+
+    }
 }

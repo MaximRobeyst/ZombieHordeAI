@@ -431,6 +431,7 @@ MonoBehaviour:
   - {fileID: 1363523148244066115, guid: 556c256f6c0419040be22bcfe3061afe, type: 3}
   - {fileID: 7410983813200795568, guid: 158a90400a5ac2e499e674feb6816a29, type: 3}
   - {fileID: 6929698449153971236, guid: e660b8d500f9d67438bf1530a9e757aa, type: 3}
+  - {fileID: 3268671064085947085, guid: 1b77a046c6e1ed142a1abcb2f19bc71e, type: 3}
   m_MinPlayers: 1
   m_MenuScene: Assets/Scenes/MainMenu.unity
   m_RoomPlayerPrefab: {fileID: 4022846387572175957, guid: 0571e4fe7c3608340846fbadf6df7245, type: 3}
