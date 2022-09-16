@@ -10,7 +10,7 @@ public class ZombieAI : GameAgent
     [SerializeField] private Transform m_HandTransform;
 
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Setup();
 
@@ -27,7 +27,9 @@ public class ZombieAI : GameAgent
         var propInTheWayTransition = new PropInTheWayTransition();
         var IsDeadTransition = new CharacterIsDeadTransition();
 
-        m_StateMachine = new FiniteStateMachine(wanderState, this);
+        m_StateMachine = GetComponent<FiniteStateMachine>();
+        m_StateMachine.CurrentState = wanderState;
+        m_StateMachine.m_Agent = this;
 
         m_StateMachine.AddTransition(chaseState, wanderState, playerDeathTransition);
         m_StateMachine.AddTransition(chaseState, attackState, playerInAttackRange);
@@ -39,6 +41,8 @@ public class ZombieAI : GameAgent
         m_StateMachine.AddTransition(chaseState, deatthState, IsDeadTransition);
         m_StateMachine.AddTransition(attackState, deatthState, IsDeadTransition);
         m_StateMachine.AddTransition(wanderState, deatthState, IsDeadTransition);
+
+        m_StateMachine.ChangeState(wanderState);
     }
 
     // Update is called once per frame

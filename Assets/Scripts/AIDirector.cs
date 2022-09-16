@@ -7,6 +7,7 @@ using UnityEngine.AI;
 public class AIDirector : NetworkBehaviour
 {
     [SyncVar]
+    // This variable is not synced and causes issues on the other client
     private List<HealthComponent> m_CurrentTargets = new List<HealthComponent>();
 
     public List<HealthComponent> CurrentNPCTargets { get { return m_CurrentTargets; } set { m_CurrentTargets = value; } }
@@ -27,6 +28,12 @@ public class AIDirector : NetworkBehaviour
     private bool m_Running = true;
 
     private int m_CurrentEnemyCount;
+
+    [Command]
+    public void RegisterHealthComponent(HealthComponent healthComponent)
+    {
+        m_CurrentTargets.Add(healthComponent);
+    }
 
     // Start is called before the first frame update
     void Start()

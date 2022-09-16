@@ -2,6 +2,7 @@ using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class GameAgent : NetworkBehaviour
 {
@@ -61,6 +62,8 @@ public class GameAgent : NetworkBehaviour
     public void ActivateRigidbody(bool active)
     {
         Rigidbody[] ragdollbodies = GetComponentsInChildren<Rigidbody>();
+        NavMeshAgent navMeshAgent = GetComponent<NavMeshAgent>();
+        navMeshAgent.enabled = !active;
 
         foreach (var rigidbody in ragdollbodies)
         {

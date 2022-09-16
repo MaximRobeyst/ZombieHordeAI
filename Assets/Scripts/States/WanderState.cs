@@ -16,12 +16,13 @@ public class WanderState : IFSMState
 
     public WanderState(GameAgent gameAgent) : base(gameAgent)
     {
+		m_NavmeshAgent = gameAgent.GetComponent<NavMeshAgent>();
     }
 
     public override void OnEnter()
     {
-		if (m_NavmeshAgent == null)
-			m_NavmeshAgent = m_Agent.GetComponent<NavMeshAgent>();
+		//if (m_NavmeshAgent == null)
+		//	m_NavmeshAgent = m_Agent.GetComponent<NavMeshAgent>();
 
 		m_NavmeshAgent.isStopped = false;
 		m_NavmeshAgent.speed = m_Agent.WanderSpeed;

@@ -12,12 +12,15 @@ public class HealthComponent : NetworkBehaviour
     [SerializeField] private bool m_DisableOnDeath = false;
 
     private int m_CharactersTargeting;  // for use in a token system
+    private AIDirector m_AIDirector;
+
 
     public bool Dead => m_Health <= 0.0f;
 
     private void Start()
     {
         m_Health = m_MaxHealth;
+        if (m_AIDirector == null) m_AIDirector = GameObject.FindGameObjectWithTag("Manager").GetComponent<AIDirector>();
     }
 
     public void DoDamage(float damage) 
@@ -29,6 +32,13 @@ public class HealthComponent : NetworkBehaviour
 
         //if (m_Health <= 0) Destroy(gameObject); // Commenting till i find a better solution to handle target getting deleted
         if (m_Health <= 0) gameObject.SetActive(false);
+    }
+
+    public override void OnStopClient()
+    {
+        base.OnStopClient();
+
+        m_AIDirector.CurrentNPCTargets.Remove(this);
     }
 
 

@@ -15,6 +15,8 @@ public class CharacterInViewTransition : IFSMTransition
         var npcTargets = agent.AIDirector.CurrentNPCTargets;
         for (int i = 0; i < npcTargets.Count; ++i)
         {
+            if (npcTargets[i] == null) continue;
+
             if (Vector3.SqrMagnitude(npcTargets[i].transform.position - agent.transform.position) < (agent.DetectionRange * agent.DetectionRange) && !npcTargets[i].Dead)
             {
                 agent.CurrentCharacterTarget = npcTargets[i];

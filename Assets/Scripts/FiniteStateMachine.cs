@@ -1,18 +1,19 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class FiniteStateMachine
+public class FiniteStateMachine : NetworkBehaviour
 {
-    public FiniteStateMachine(IFSMState state, GameAgent agent)
-    {
-        m_Agent = agent;
-        ChangeState(state);
-    }
+    private Dictionary<IFSMState, List<KeyValuePair<IFSMTransition, IFSMState>>> m_Transitions = new Dictionary<IFSMState, List<KeyValuePair<IFSMTransition, IFSMState>>>();
+    
+    public IFSMState CurrentState { get; set; }
+
+    public GameAgent m_Agent { get; set; }
 
     public string GetCurrentStateName()
     {
-        return m_CurrentState.ToString();
+        return CurrentState.ToString();
     }
 
     public void AddTransition(IFSMState startState, IFSMState toState, IFSMTransition transition)
@@ -26,35 +27,35 @@ public class FiniteStateMachine
         m_Transitions[startState].Add(new KeyValuePair<IFSMTransition, IFSMState>(transition, toState));
     }
 
-    private void ChangeState(IFSMState state)
+    public void ChangeState(IFSMState state)
     {
-        if (m_CurrentState == state) return;
+        if (CurrentState == state) return;
 
-        if(m_CurrentState != null)
-            m_CurrentState.OnExit();
+        if(CurrentState != null)
+            CurrentState.OnExit();
 
-        m_CurrentState = state;
+        CurrentState = state;
 
-        if (m_CurrentState != null)
-            m_CurrentState.OnEnter();
+        if (CurrentState != null)
+            CurrentState.OnEnter();
     }
 
     public void UpdateStateMachine()
     {
-        if (m_CurrentState == null) return;
+        if (CurrentState == null) return;
 
 
-        if (m_CurrentState != null)
-            m_CurrentState.Update();
+        if (CurrentState != null)
+            CurrentState.Update();
 
-        if (!m_Transitions.ContainsKey(m_CurrentState) || m_Transitions[m_CurrentState] == null) return;
-        if (m_Transitions[m_CurrentState].Count != 0)
+        if (!m_Transitions.ContainsKey(CurrentState) || m_Transitions[CurrentState] == null) return;
+        if (m_Transitions[CurrentState].Count != 0)
         {
-            for(int i = 0; i < m_Transitions[m_CurrentState].Count; ++i)
+            for(int i = 0; i < m_Transitions[CurrentState].Count; ++i)
             {
-                if(m_Transitions[m_CurrentState][i].Key.ToTransition(m_Agent))
+                if(m_Transitions[CurrentState][i].Key.ToTransition(m_Agent))
                 {
-                    ChangeState(m_Transitions[m_CurrentState][i].Value);
+                    ChangeState(m_Transitions[CurrentState][i].Value);
                     return;
                 }
             }
@@ -64,15 +65,13 @@ public class FiniteStateMachine
 
     public void Gizmos()
     {
-        m_CurrentState.DrawGizmos();
+        if (CurrentState == null) return;
+
+        CurrentState.DrawGizmos();
     }
-
-    private Dictionary<IFSMState, List<KeyValuePair<IFSMTransition, IFSMState>>> m_Transitions = new Dictionary<IFSMState, List<KeyValuePair<IFSMTransition, IFSMState>>>();
-    private IFSMState m_CurrentState;
-
-    private GameAgent m_Agent;
 }
 
+[System.Serializable]
 public abstract class IFSMState
 {
     public IFSMState(GameAgent gameAgent)
