@@ -29,7 +29,7 @@ public class FiniteStateMachine : NetworkBehaviour
 
     public void ChangeState(IFSMState state)
     {
-        Debug.Log(state.ToString());
+        //Debug.Log(state.ToString());
 
         if (CurrentState == state) return;
 

@@ -27,7 +27,7 @@ public class HealthComponent : NetworkBehaviour
 
     public void DoDamage(float damage) 
     {
-        Debug.Log($"{gameObject.name} Damaged");
+        //Debug.Log($"{gameObject.name} Damaged");
 
         m_Health -= damage;
         if (!m_DisableOnDeath) return;

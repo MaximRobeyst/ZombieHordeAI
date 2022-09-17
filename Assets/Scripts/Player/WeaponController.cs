@@ -5,7 +5,7 @@ using UnityEngine;
 
 public class WeaponController : NetworkBehaviour
 {
-    [SerializeField] private WeaponPickup m_Weapon01;
+    private WeaponPickup m_Weapon01;
     [SerializeField] private Transform m_WeaponPosition;
 
     private Camera m_Camera;
@@ -14,9 +14,6 @@ public class WeaponController : NetworkBehaviour
     {
         if (m_WeaponPosition == null) return;
         m_Camera = GetComponentInChildren<Camera>();
-
-        m_Weapon01 = m_WeaponPosition.GetComponentInChildren<WeaponPickup>();
-        if (m_Weapon01 != null) EquipWeapon(m_Weapon01);
     }
 
     private void Update()
@@ -24,7 +21,6 @@ public class WeaponController : NetworkBehaviour
         if (m_Weapon01 == null || !hasAuthority) return;
 
         if (Input.GetMouseButton(0)) m_Weapon01.Fire();
-
     }
 
     public void EquipWeapon(WeaponPickup weapon)

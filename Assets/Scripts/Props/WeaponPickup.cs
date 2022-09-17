@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WeaponPickup : Weapon, Interactible
+public class WeaponPickup : Interactible
 {
     [SerializeField] private Transform m_MuzzleTransform;
 
@@ -19,7 +20,20 @@ public class WeaponPickup : Weapon, Interactible
         m_CurrentCamera = camera;
     }
 
-    public void Interacting(GameObject interactingObject)
+    [Command(requiresAuthority = false)]
+    public override void CmdInteract(GameObject interactingObject)
+    {
+        WeaponController weaponController = interactingObject.GetComponent<WeaponController>();
+        m_CurrentCamera = interactingObject.GetComponentInChildren<Camera>();
+
+        if (weaponController != null)
+            weaponController.EquipWeapon(this);
+
+        base.CmdInteract(interactingObject);
+    }
+
+    [ClientRpc]
+    public override void RPCInteract(GameObject interactingObject)
     {
         WeaponController weaponController = interactingObject.GetComponent<WeaponController>();
         m_CurrentCamera = interactingObject.GetComponentInChildren<Camera>();
@@ -28,7 +42,7 @@ public class WeaponPickup : Weapon, Interactible
             weaponController.EquipWeapon(this);
     }
 
-    public override void Fire()
+    public void Fire()
     {
         if (!m_AllowFire) return;
 

@@ -1,10 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using Mirror;
 
-public interface Interactible
+public class Interactible : NetworkBehaviour
 {
-    public virtual void Interacting(GameObject interactingObject)
+    [Command(requiresAuthority = false)]
+    public virtual void CmdInteract(GameObject interactingObject)
+    {
+        RPCInteract(interactingObject);
+    }
+
+    [ClientRpc]
+    public virtual void RPCInteract(GameObject interactingObject)
     {
 
     }

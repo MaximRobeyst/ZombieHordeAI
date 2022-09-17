@@ -1,8 +1,9 @@
+using Mirror;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Door : MonoBehaviour,  Interactible
+public class Door : Interactible
 {
     bool m_Open;
     Animator m_Animator;
@@ -12,7 +13,8 @@ public class Door : MonoBehaviour,  Interactible
         m_Animator = GetComponent<Animator>();
     }
 
-    public void Interacting(GameObject interactingObject)
+    [Command(requiresAuthority = false)]
+    public override void CmdInteract(GameObject interactingObject)
     {
         m_Open = !m_Open;
         m_Animator.SetBool("Open", m_Open);

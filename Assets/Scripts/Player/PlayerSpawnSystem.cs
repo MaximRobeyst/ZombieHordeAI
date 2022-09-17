@@ -49,10 +49,8 @@ public class PlayerSpawnSystem : NetworkBehaviour
 
         GameObject playerInstance = Instantiate(m_PlayerPrefab, m_SpawnPoints[m_NextIndex].position, m_SpawnPoints[m_NextIndex].rotation);
         NetworkServer.Spawn(playerInstance, conn);
-        
 
-        // Voor maxim van morgen ik zit hier vast de currenttargets veranderen niet en ik heb geen idee waarom
-        // We kunnen mischien de spelers van de networkmanager pakken en die in de lijst stoppen maar dat is jouw probleem lmao xD
+        // Assign the new player to the enemy target list
         m_AIDirector.CurrentTargets.Add(playerInstance.GetComponent<HealthComponent>());
         Debug.Log($"Spawned player and registered to director {playerInstance.GetComponent<HealthComponent>().name}");
 
