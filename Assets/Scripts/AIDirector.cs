@@ -6,11 +6,9 @@ using UnityEngine.AI;
 
 public class AIDirector : NetworkBehaviour
 {
-    [SyncVar]
     // This variable is not synced and causes issues on the other client
-    private List<HealthComponent> m_CurrentTargets = new List<HealthComponent>();
+    public List<HealthComponent> CurrentTargets = new List<HealthComponent>();
 
-    public List<HealthComponent> CurrentNPCTargets { get { return m_CurrentTargets; } set { m_CurrentTargets = value; } }
     [SerializeField] private float m_MinTimeBetweenMobAttacks = 90.0f;
     [SerializeField] private float m_MaxTimeBetweenMobAttacks = 180.0f;
     private float m_TimeTillNextMob;
@@ -32,7 +30,15 @@ public class AIDirector : NetworkBehaviour
     [Command]
     public void RegisterHealthComponent(HealthComponent healthComponent)
     {
-        m_CurrentTargets.Add(healthComponent);
+        CurrentTargets.Add(healthComponent);
+        Debug.Log($"Registered new healthcomponent {healthComponent.gameObject.name}");
+    }
+
+    [Command]
+    public void UnRegisterHealthComponent(HealthComponent healthComponent)
+    {
+        CurrentTargets.Remove(healthComponent);
+        Debug.Log($"Unregistered new healthcomponent {healthComponent.gameObject.name}");
     }
 
     // Start is called before the first frame update
@@ -45,7 +51,10 @@ public class AIDirector : NetworkBehaviour
 
     void Update()
     {
-        m_InfoGrid.UpdateVisibility(m_CurrentTargets);
+        if (!isServer) return;
+
+        for(int i = 0; i < CurrentTargets.Count;++i)
+            m_InfoGrid.UpdateVisibility(CurrentTargets[i]);
 
         m_CurrentTimer += Time.deltaTime;
 
@@ -62,6 +71,7 @@ public class AIDirector : NetworkBehaviour
 
     void SpawnEnemiesInArea()
     {
+        if (!isServer) return;
         if (m_CurrentEnemyCount >= m_CurrentSpawnLimit) return;
 
         GameObject defaultZombie = Instantiate(m_DefaultAgents[Random.Range(0, m_DefaultAgents.Count)], m_InfoGrid.GetSuitableSpawnPosition(), Quaternion.identity).gameObject;

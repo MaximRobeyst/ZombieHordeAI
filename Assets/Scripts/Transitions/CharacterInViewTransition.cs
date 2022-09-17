@@ -12,7 +12,7 @@ public class CharacterInViewTransition : IFSMTransition
         if (m_NavmeshAgent == null) m_NavmeshAgent = agent.GetComponent<NavMeshAgent>();
 
 
-        var npcTargets = agent.AIDirector.CurrentNPCTargets;
+        var npcTargets = agent.AIDirector.CurrentTargets;
         for (int i = 0; i < npcTargets.Count; ++i)
         {
             if (npcTargets[i] == null) continue;

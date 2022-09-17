@@ -41,8 +41,6 @@ public class ZombieAI : GameAgent
         m_StateMachine.AddTransition(chaseState, deatthState, IsDeadTransition);
         m_StateMachine.AddTransition(attackState, deatthState, IsDeadTransition);
         m_StateMachine.AddTransition(wanderState, deatthState, IsDeadTransition);
-
-        m_StateMachine.ChangeState(wanderState);
     }
 
     // Update is called once per frame

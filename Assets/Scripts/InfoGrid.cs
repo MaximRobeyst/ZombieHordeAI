@@ -135,28 +135,22 @@ public class InfoGrid : MonoBehaviour
 
     }
 
-    public void UpdateVisibility(List<HealthComponent> characters)
+    public void UpdateVisibility(HealthComponent character)
     {
         foreach (var grid in m_Points)
             grid.m_PlayerInside = false;
 
-        foreach (var character in characters)
+        int column = (int)(((character.transform.position.z + (m_GridSize / 2)) / m_GridSize) * m_WorldDivision);
+        int row = (int)(((character.transform.position.x + (m_GridSize / 2)) / m_GridSize) * m_WorldDivision);
+
+        m_Points[row * m_WorldDivision + column].m_PlayerInside = true;
+
+        for (int i = Math.Max(0, column - 1); i <= Math.Min(m_WorldDivision, column + 1); ++i)
         {
-            int column = (int)(((character.transform.position.z + (m_GridSize / 2)) / m_GridSize) * m_WorldDivision);
-            int row = (int)(((character.transform.position.x + (m_GridSize / 2)) / m_GridSize) * m_WorldDivision);
-
-            m_Points[row * m_WorldDivision + column].m_PlayerInside = true;
-
-            for(int i = Math.Max(0,column - 1); i <= Math.Min(m_WorldDivision,column + 1); ++i)
+            for (int j = Math.Max(0, row - 1); j <= Math.Min(m_WorldDivision, row + 1); ++j)
             {
-                for(int j = Math.Max(0, row - 1); j <= Math.Min(m_WorldDivision, row + 1); ++j)
-                {
-                    UpdateCurrentGrid(j, i, character);
-                }
+                UpdateCurrentGrid(j, i, character);
             }
-
-            //Debug.Log($" Position: ({character.transform.position.x} , {character.transform.position.z}) Column: {column} Row: {row}");
-
         }
     }
 

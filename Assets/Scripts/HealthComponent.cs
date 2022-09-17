@@ -21,6 +21,8 @@ public class HealthComponent : NetworkBehaviour
     {
         m_Health = m_MaxHealth;
         if (m_AIDirector == null) m_AIDirector = GameObject.FindGameObjectWithTag("Manager").GetComponent<AIDirector>();
+
+        NetworkMangerLobby.OnClientDisconnected += RemoveHealthComponent;
     }
 
     public void DoDamage(float damage) 
@@ -34,11 +36,9 @@ public class HealthComponent : NetworkBehaviour
         if (m_Health <= 0) gameObject.SetActive(false);
     }
 
-    public override void OnStopClient()
+    public void RemoveHealthComponent()
     {
-        base.OnStopClient();
-
-        m_AIDirector.CurrentNPCTargets.Remove(this);
+        
     }
 
 

@@ -29,6 +29,8 @@ public class FiniteStateMachine : NetworkBehaviour
 
     public void ChangeState(IFSMState state)
     {
+        Debug.Log(state.ToString());
+
         if (CurrentState == state) return;
 
         if(CurrentState != null)
@@ -42,6 +44,7 @@ public class FiniteStateMachine : NetworkBehaviour
 
     public void UpdateStateMachine()
     {
+        if (!isServer) return;
         if (CurrentState == null) return;
 
 
@@ -72,7 +75,7 @@ public class FiniteStateMachine : NetworkBehaviour
 }
 
 [System.Serializable]
-public abstract class IFSMState
+public class IFSMState
 {
     public IFSMState(GameAgent gameAgent)
     {
@@ -85,10 +88,26 @@ public abstract class IFSMState
     public virtual void OnExit() { }
 
 
-    protected GameAgent m_Agent;
+    public GameAgent m_Agent { get; private set; }
 }
 
 public abstract class IFSMTransition
 {
     public abstract bool ToTransition(GameAgent agent);
 }
+
+
+//public static class CustomReadWriteFunctions
+//{
+//    public static void WriteIFSMState(this NetworkWriter writer, IFSMState state)
+//    {
+//        NetworkIdentity networkIdentity = state.m_Agent.GetComponent<NetworkIdentity>();
+//        writer.WriteNetworkIdentity(networkIdentity);
+//    }
+//
+//    public static IFSMState ReadIFSMState(this NetworkReader reader)
+//    {
+//
+//        return new IFSMState()
+//    }
+//}
