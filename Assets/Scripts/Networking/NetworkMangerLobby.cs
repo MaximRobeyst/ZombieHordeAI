@@ -16,6 +16,7 @@ public class NetworkMangerLobby : NetworkManager
     [Header("Game")]
     [SerializeField] private NetworkGamePlayerLobby m_GamePlayerPrefab = null;
     [SerializeField] private GameObject m_PlayerSpawnSystem = null;
+    [SerializeField] private GameObject m_SharedCanvas = null;
 
     // Listen in on these actions without having to call them
     public static event Action OnClientConnected;
@@ -141,6 +142,9 @@ public class NetworkMangerLobby : NetworkManager
         {
             GameObject playerSpawnSystemInstance = Instantiate(m_PlayerSpawnSystem);
             NetworkServer.Spawn(playerSpawnSystemInstance);
+
+            GameObject sharedCanvas = Instantiate(m_SharedCanvas);
+            NetworkServer.Spawn(sharedCanvas);
         }
     }
 

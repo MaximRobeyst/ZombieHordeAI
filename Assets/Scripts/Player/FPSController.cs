@@ -21,6 +21,8 @@ public class FPSController : NetworkBehaviour
 
     private bool m_CanMove = true;
 
+    [SerializeField] private GameObject m_PlayerCanvas;
+
 
     // Start is called before the first frame update
     void Start()
@@ -35,6 +37,9 @@ public class FPSController : NetworkBehaviour
     {
         m_PlayerCamera = GetComponentInChildren<Camera>(true);
         m_PlayerCamera.enabled = true;
+
+        m_PlayerCanvas.SetActive(true);
+
     }
 
     // Update is called once per frame
