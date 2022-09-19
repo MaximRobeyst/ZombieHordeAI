@@ -1,2 +1,2 @@
-# ZombieHordeAI
- ZombiehordeAI inspired by left 4 dead and vermintide
+# Zombie game
+Zombie game inspired by left4dead and Vermintide 2. It was mainly focused on learning networking through unity and how to connect it through steam
