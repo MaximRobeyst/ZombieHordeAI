@@ -25,6 +25,11 @@ public class PlayerStatDisplay : MonoBehaviour
         m_HealthComponent = gamePlayer.GetComponent<HealthComponent>();
     }
 
+    public void Setup(GameObject player)
+    {
+        m_HealthComponent = player.GetComponent<HealthComponent>();
+    }
+
     private void Update()
     {
         if (m_HealthComponent == null) return;

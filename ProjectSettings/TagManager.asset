@@ -7,6 +7,7 @@ TagManager:
   - Manager
   - Enemy
   - Prop
+  - MainCanvas
   layers:
   - Default
   - TransparentFX

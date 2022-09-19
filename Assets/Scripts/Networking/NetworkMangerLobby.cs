@@ -142,9 +142,6 @@ public class NetworkMangerLobby : NetworkManager
         {
             GameObject playerSpawnSystemInstance = Instantiate(m_PlayerSpawnSystem);
             NetworkServer.Spawn(playerSpawnSystemInstance);
-
-            GameObject sharedCanvas = Instantiate(m_SharedCanvas);
-            NetworkServer.Spawn(sharedCanvas);
         }
     }
 

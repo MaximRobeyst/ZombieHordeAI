@@ -29,6 +29,9 @@ public class FPSController : NetworkBehaviour
     {
         m_CharacterController = GetComponent<CharacterController>();
 
+        var canvasManager = GameObject.FindGameObjectWithTag("MainCanvas").GetComponent<PlayersCanvasManager>();
+        canvasManager.AddPlayer(gameObject);
+
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
     }

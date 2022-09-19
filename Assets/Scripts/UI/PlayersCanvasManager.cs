@@ -8,22 +8,13 @@ public class PlayersCanvasManager : NetworkBehaviour
     [SerializeField] private PlayerStatDisplay m_PlayerStateDisplay;
     [SerializeField] private Transform m_Parent;
 
-    public void AddPlayer(Player player)
-    {
-
-    }
-
-    public override void OnStartServer()
-    {
-        NetworkMangerLobby.OnServerReadied += SpawnPlayerDisplay;
-    }
-
-    [Server]
-    public void SpawnPlayerDisplay(NetworkConnection conn)
+    public void AddPlayer(GameObject player)
     {
         var displayInstance = Instantiate(m_PlayerStateDisplay, m_Parent);
-        NetworkServer.Spawn(displayInstance.gameObject, conn);
+        NetworkServer.Spawn(displayInstance.gameObject, connectionToServer);
 
-        //displayInstance.Setup()
+        var statDisplay = displayInstance.GetComponent<PlayerStatDisplay>();
+        statDisplay.Setup(player);
+
     }
 }
